@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSB Steganography</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="error-handler.js"></script>
+    <script type="module" src="lsb-core.js"></script>
+</head>
+<body>
+
+    <div class="main-card">
+        <div class="radio-group">
+            <label>
+                <input type="radio" id="modeEncrypt" name="mode" value="encrypt" checked> 
+                Зашифрувати
+            </label>
+            <label>
+                <input type="radio" id="modeDecrypt" name="mode" value="decrypt"> 
+                Розшифрувати
+            </label>
+        </div>
+
+        <div class="input-group container">
+            <label for="inputImg" style="font-size: 0.875rem; color: #4B5563;">Оберіть зображення (PNG, BMP):</label>
+            <input type="file" id="inputImg" accept=".png, .bmp">
+        </div>
+
+        <div id="encryptSection" class="input-group">
+            <textarea id="inputTextTextArea" placeholder="Введіть текст для приховування..."></textarea>
+        </div>
+
+        <button id="actionBtn">Зашифрувати</button>
+
+        <hr style="border: 0; border-top: 1px solid var(--border);">
+
+        <div class="results-container">
+            <canvas id="outputCanvas" class="hidden"></canvas>
+            
+            <button id="downloadBtn" class="hidden">Завантажити зображення</button>
+            
+            <p id="decryptedTextOutput" class="hidden"></p>
+        </div>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+</body>
+</html>
