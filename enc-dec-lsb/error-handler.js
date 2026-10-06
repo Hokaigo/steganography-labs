@@ -1,4 +1,3 @@
-// Експортуємо функцію
 export function showToast(message, type = 'error') {
     const container = document.getElementById('toast-container');
     if (!container)
@@ -15,8 +14,6 @@ export function showToast(message, type = 'error') {
         setTimeout(() => toast.remove(), 300);
     }, 4000);
 }
-// Глобальні обробники помилок залишаються тут, 
-// вони прив'язуються до window автоматично при завантаженні цього файлу
 window.addEventListener('error', function (event) {
     showToast(event.message || 'Сталася невідома помилка', 'error');
 });
@@ -27,4 +24,3 @@ window.addEventListener('unhandledrejection', function (event) {
     }
     showToast(errorMsg, 'error');
 });
-//# sourceMappingURL=error-handler.js.map
