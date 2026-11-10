@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Текстова Стеганографія</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main-card" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <h2>Текстова Стеганографія</h2>
+
+        <div class="radio-group" style="margin-bottom: 20px;">
+            <label><input type="radio" id="modeEncrypt" name="mode" value="encrypt" checked> Приховати</label>
+            <label><input type="radio" id="modeDecrypt" name="mode" value="decrypt"> Вилучити</label>
+        </div>
+
+        <div class="input-group">
+            <label>Метод стеганографії:</label>
+            <select id="methodSelect" style="width: 100%; padding: 8px; margin-top: 5px;">
+                <option value="zwc">Символи нульової ширини</option>
+                <option value="case">Зміна регістру літер</option>
+                <option value="space">Маніпуляція пробілами</option>
+                <option value="color">Зміна кольору шрифту</option>
+            </select>
+        </div>
+
+        <div class="input-group" style="margin-top: 15px;">
+            <label><input type="checkbox" id="useCaesar"> Використати шифр Цезаря</label>
+        </div>
+
+        <div id="encryptSection">
+            <div class="input-group container" style="margin-top: 15px;">
+                <label>Текст-контейнер:</label>
+                <textarea id="coverTextArea" rows="4" style="width: 100%;" placeholder="Введіть текст-носій..."></textarea>
+            </div>
+            <div class="input-group container" style="margin-top: 15px;">
+                <label>Секретне повідомлення:</label>
+                <textarea id="secretTextArea" rows="2" style="width: 100%;" placeholder="Введіть таємний текст..."></textarea>
+            </div>
+        </div>
+
+        <div id="decryptSection" style="display: none; margin-top: 15px;">
+            <label>Завантажте файл зі стеготекстом (.txt або .html):</label>
+            <input type="file" id="stegoFileInput" accept=".txt,.html">
+        </div>
+
+        <button id="actionBtn" style="margin-top: 20px; padding: 10px 20px;">Виконати</button>
+
+        <hr style="margin: 20px 0;">
+
+        <div id="resultsContainer" class="results-container">
+            <h3>Результати:</h3>
+            <div id="debugOutput" style="background: #f3f4f6; padding: 10px; font-size: 0.9em; margin-bottom: 15px; word-break: break-all; white-space: pre-wrap;"></div>
+            
+            <button id="downloadBtn" class="hidden" style="margin-bottom: 15px;">Завантажити файл зі стеготекстом</button>
+            
+            <p id="extractedTextOutput" class="hidden" style="font-weight: bold; color: green; font-size: 1.2em;"></p>
+        </div>
+    </div>
+    
+    <div id="toast-container" class="toast-container"></div>
+    
+    <script type="module" src="/error-handler.ts"></script>
+    <script type="module" src="/text-stego.ts"></script>
+</body>
+</html>
