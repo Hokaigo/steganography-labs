@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio LSB Steganography</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="bg-gray-50 min-h-screen py-10 px-4 flex justify-center font-sans text-gray-800 items-start">
+
+    <div class="w-full max-w-3xl bg-white p-8 rounded-xl shadow-sm border border-gray-200 h-auto transition-all duration-300">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Приховування даних у WAV <span class="font-normal text-gray-500 text-lg ml-2">LSB Steganography + PRNG</span></h2>
+        
+        <div class="flex items-center space-x-6 mb-8 pb-6 border-b border-gray-100 justify-center">
+            <label class="flex items-center cursor-pointer">
+                <input type="radio" name="mode" value="encrypt" checked onchange="toggleMode()" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                <span class="ml-2 text-sm font-medium text-gray-700">Приховати</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+                <input type="radio" name="mode" value="decrypt" onchange="toggleMode()" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                <span class="ml-2 text-sm font-medium text-gray-700">Вилучити</span>
+            </label>
+        </div>
+
+        <div id="encryptSection">
+            <div class="mb-5">
+                <label class="block text-sm text-gray-600 mb-2">Оберіть аудіофайл (WAV)</label>
+                <input type="file" id="encFile" accept=".wav" 
+                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-200 rounded p-1">
+            </div>
+
+            <div class="mb-5">
+                <label class="block text-sm text-gray-600 mb-2">Секретний ключ (опціонально для PRNG)</label>
+                <input type="text" id="encKey" placeholder="Якщо залишити пустим, застосується звичайний LSB..." 
+                    class="w-full p-3 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm text-gray-600 mb-2">Секретне повідомлення</label>
+                <textarea id="encText" rows="4" placeholder="Введіть текст..." 
+                    class="w-full p-3 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400"></textarea>
+            </div>
+
+            <button onclick="encrypt()" id="encBtn"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded transition-colors mb-6">
+                Приховати
+            </button>
+
+            <div id="encResult" class="hidden border-t border-gray-100 pt-6">
+                <h4 class="text-sm font-bold text-center mb-4">Результати:</h4>
+                <p class="text-center text-sm text-green-600 mb-4">Успішно приховано! Натисніть кнопку нижче, щоб зберегти файл.</p>
+                <a id="downloadLink" href="#" download class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded transition-colors mb-6">
+                    Завантажити файл зі стеготекстом
+                </a>
+                
+                <h4 class="text-sm font-bold text-center mb-3">Порівняння графіків хвиль</h4>
+                <img id="plotImg" src="" alt="Порівняння графіків" class="w-full border border-gray-200 rounded">
+            </div>
+        </div>
+
+        <div id="decryptSection" class="hidden">
+            <div class="mb-5">
+                <label class="block text-sm text-gray-600 mb-2">Завантажте файл зі стеготекстом (WAV)</label>
+                <input type="file" id="decFile" accept=".wav" 
+                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 border border-gray-200 rounded p-1">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm text-gray-600 mb-2">Секретний ключ (якщо використовувався)</label>
+                <input type="text" id="decKey" placeholder="Введіть ключ..." 
+                    class="w-full p-3 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400">
+            </div>
+
+            <button onclick="decrypt()" id="decBtn"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded transition-colors mb-6">
+                Вилучити
+            </button>
+
+            <div id="decResultContainer" class="hidden border-t border-gray-100 pt-6 text-center">
+                <h4 class="text-sm font-bold mb-4">Результати:</h4>
+                <p class="text-sm text-gray-600 inline-block">Вилучене повідомлення: <span id="decResult" class="font-bold text-green-600 ml-2 break-words"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+    <script src="{{ url_for('static', filename='js/toast.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
